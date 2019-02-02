@@ -1,3 +1,5 @@
+To run this app you must first add your own api keys to APIkeys.js file.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
