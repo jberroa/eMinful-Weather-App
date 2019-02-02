@@ -1,12 +1,32 @@
 import React, { Component } from "react";
-import "./App.css";
 import HeaderContainer from "./components/Header/header";
+import { connect } from "react-redux";
+import { simpleAction } from "./actions/locationActions";
+
+/*
+ * mapDispatchToProps
+ */
+const mapDispatchToProps = dispatch => ({
+  simpleAction: () => dispatch(simpleAction())
+});
+
+/*
+ * mapStateToProps
+ */
+const mapStateToProps = state => ({
+  ...state
+});
 
 class App extends Component {
+  simpleAction = event => {
+    this.props.simpleAction();
+  };
+
   render() {
     return (
-      <div className="App">
+      <React.Fragment>
         <HeaderContainer />
+
         {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
@@ -21,9 +41,12 @@ class App extends Component {
             Learn React
           </a>
         </header> */}
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
