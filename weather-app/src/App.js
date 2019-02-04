@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import HeaderContainer from "./components/Header/header";
 import { connect } from "react-redux";
-import { simpleAction } from "./actions/locationActions";
+import { getSuggestions, setSuggestions } from "./actions/suggestionsActions";
 
 /*
  * mapDispatchToProps
  */
 const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
+  getSuggestions: city => dispatch(getSuggestions(city)),
+  setSuggestions: () => dispatch(setSuggestions())
 });
 
 /*
@@ -19,28 +20,12 @@ const mapStateToProps = state => ({
 
 class App extends Component {
   simpleAction = event => {
-    this.props.simpleAction();
+    this.props.GetLocation("winter park");
   };
-
   render() {
     return (
       <React.Fragment>
-        <HeaderContainer />
-
-        {/* <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header> */}
+        <HeaderContainer {...this.props} />
       </React.Fragment>
     );
   }

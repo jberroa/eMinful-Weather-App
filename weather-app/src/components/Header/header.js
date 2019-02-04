@@ -15,7 +15,7 @@ export default class HeaderContainer extends Component {
   render() {
     return (
       <Header>
-        <SearchBar />
+        <SearchBar {...this.props} />
       </Header>
     );
   }

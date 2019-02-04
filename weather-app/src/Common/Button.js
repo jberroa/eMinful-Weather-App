@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 
 const Button = styled.button`
-  /* This renders the buttons above... Edit me! */
   border-radius: 3px;
   padding: 0.8rem 0;
   margin: 0.5rem 1rem;

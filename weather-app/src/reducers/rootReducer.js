@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import simpleReducer from "./locationReducer";
+import suggestionsReducer from "./suggestionsReducer";
 export default combineReducers({
-  simpleReducer
+  places: suggestionsReducer
 });
