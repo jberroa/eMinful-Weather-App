@@ -58,12 +58,12 @@ const Suggestions = styled.ul`
 
 const SuggestionItem = styled.li`
   padding: 0.5rem;
-
+  font-size: 12px;
   :hover {
     background-color: #f5f5f5;
     color: #4fc3f7;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 400;
   }
   :not(:last-of-type) {
     border-bottom: 1px solid #999;
@@ -76,28 +76,46 @@ const ButtonContainer = styled.div`
 `;
 export default class SearchBar extends Component {
   state = {
-    text: ""
+    text: "",
+    citySelected: false
   };
   onTextChange = event => {
     this.props.getSuggestions(event.target.value);
-    this.setState({ text: event.target.value });
+    this.setState({ text: event.target.value, citySelected: false });
   };
 
   onSuggestedItemClick = city => {
     // event.preventDefault();
-    this.setState({ text: city });
-    this.props.setSuggestions();
+    this.setState({ text: city, citySelected: true });
   };
 
+  onAddItemClick = event => {
+    event.preventDefault();
+
+    this.props.addCity(this.state.text);
+
+    let suggestion = this.props.places.suggestions.filter((item, index) => {
+      return this.state.text === item.city;
+    });
+
+    this.props.setSuggestions({});
+    this.props.getWeather(
+      this.state.text.split(",", 1).map(item => {
+        return item.trim();
+      })
+    );
+
+    this.props.getCityLocation(suggestion["0"].placeId.trim());
+  };
   renderSuggestions = () => {
     return (
       <Suggestions>
-        {this.props.places.suggestions.map((city, index) => (
+        {this.props.places.suggestions.map((place, index) => (
           <SuggestionItem
-            onClick={() => this.onSuggestedItemClick(city)}
+            onClick={() => this.onSuggestedItemClick(place.city)}
             key={index}
           >
-            {city}
+            {place.city}
           </SuggestionItem>
         ))}
       </Suggestions>
@@ -112,10 +130,17 @@ export default class SearchBar extends Component {
             onChange={this.onTextChange}
             placeholder="Search City"
           />
-          {this.props.places.suggestions.length > 0 && this.renderSuggestions()}
+          {this.props.places.suggestions.length > 0 &&
+            !this.state.citySelected &&
+            this.renderSuggestions()}
         </SearchWrapper>
         <ButtonContainer>
-          <Button>Add City</Button>
+          <Button
+            onClick={this.onAddItemClick}
+            disabled={!this.state.citySelected}
+          >
+            Add City
+          </Button>
         </ButtonContainer>
       </SearchForm>
     );

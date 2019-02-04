@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import HeaderContainer from "./components/Header/header";
 import { connect } from "react-redux";
-import { getSuggestions, setSuggestions } from "./actions/suggestionsActions";
+import { getSuggestions, setSuggestions } from "./actions/placesActions";
+import { addItem, getWeather, getCityLocation } from "./actions/listActions";
 
 /*
  * mapDispatchToProps
  */
 const mapDispatchToProps = dispatch => ({
   getSuggestions: city => dispatch(getSuggestions(city)),
-  setSuggestions: () => dispatch(setSuggestions())
+  addCity: city => dispatch(addItem(city)),
+  setSuggestions: payload => dispatch(setSuggestions(payload)),
+  getWeather: city => dispatch(getWeather(city)),
+  getCityLocation: placeId => dispatch(getCityLocation(placeId))
 });
 
 /*
@@ -26,6 +30,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <HeaderContainer {...this.props} />
+        {/* <MyMapComponent /> */}
       </React.Fragment>
     );
   }

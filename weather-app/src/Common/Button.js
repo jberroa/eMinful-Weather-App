@@ -47,6 +47,19 @@ const Button = styled.button`
         box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
       }
     `}
+
+    ${props =>
+      props.disabled &&
+      css`
+        :disabled {
+          color: #4fc3f7;
+          background-color: #f5f5f5;
+          border-color: #f5f5f5;
+          opacity: 0.65;
+        }
+      `}
+
+   
 `;
 
 export default Button;
