@@ -74,6 +74,7 @@ const ButtonContainer = styled.div`
   display: flex;
   align-self: flex-start;
 `;
+
 export default class SearchBar extends Component {
   state = {
     text: "",
@@ -92,20 +93,18 @@ export default class SearchBar extends Component {
   onAddItemClick = event => {
     event.preventDefault();
 
-    this.props.addCity(this.state.text);
-
-    let suggestion = this.props.places.suggestions.filter((item, index) => {
-      return this.state.text === item.city;
-    });
-
-    this.props.setSuggestions({});
-    this.props.getWeather(
-      this.state.text.split(",", 1).map(item => {
-        return item.trim();
+    this.props.addCity(
+      this.props.places.suggestions.find(item => {
+        return this.state.text === item.city;
       })
     );
 
-    this.props.getCityLocation(suggestion["0"].placeId.trim());
+    this.setState({ text: "", citySelected: false });
+  };
+  onRemoveItemClick = event => {
+    event.preventDefault();
+
+    this.props.removeCity(1);
   };
   renderSuggestions = () => {
     return (
@@ -130,7 +129,8 @@ export default class SearchBar extends Component {
             onChange={this.onTextChange}
             placeholder="Search City"
           />
-          {this.props.places.suggestions.length > 0 &&
+          {this.state.text.length > 0 &&
+            this.props.places.suggestions.length > 0 &&
             !this.state.citySelected &&
             this.renderSuggestions()}
         </SearchWrapper>

@@ -1,26 +1,9 @@
-import {
-  GET_SUGGESTIONS,
-  SET_ERROR,
-  SET_CITY,
-  SET_SUGGESTIONS
-} from "../actionTypes";
+import { GET_SUGGESTIONS, SET_ERROR, SET_SUGGESTIONS } from "../actionTypes";
 
-const initialState = { suggestions: {}, error: "", tempCity: {} };
+const initialState = { suggestions: {}, error: "" };
 
 var getCity = value => {
   return { city: value.description, id: value.id, placeId: value.place_id };
-};
-
-var getCityDetails = value => {
-  let { formatted_address, geometry } = value;
-
-  return {
-    city: {
-      Name: formatted_address,
-      lng: geometry.location.lng,
-      lat: geometry.location.lat
-    }
-  };
 };
 
 export default (state = initialState, action) => {
@@ -40,12 +23,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         error: action.payload
-      };
-
-    case SET_CITY:
-      return {
-        ...state,
-        city: getCityDetails(action.payload.result)
       };
     default:
       return state;
