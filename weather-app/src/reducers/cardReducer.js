@@ -5,7 +5,9 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_ITEM:
-      action.payload.id = state.length;
+      action.payload.id = action.payload.id
+        ? action.payload.id
+        : state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1;
       return [...state, action.payload];
 
     case REMOVE_ITEM:

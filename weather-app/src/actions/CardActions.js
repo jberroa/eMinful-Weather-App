@@ -4,22 +4,24 @@ import { ADD_ITEM, REMOVE_ITEM, SET_ERROR } from "../actionTypes";
 import moment from "moment";
 
 export const addItem = city => dispatch => {
-  dispatch(getCityLocation(city.placeId));
+  dispatch(getCityLocation(city));
 };
 
-export const getCityLocation = id => dispatch => {
+export const getCityLocation = city => dispatch => {
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${placesAPIKey}&fields=geometry,formatted_address,address_component`
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${
+        city.placeId
+      }&key=${placesAPIKey}&fields=geometry,formatted_address,address_component`
     )
     .then(response => {
-      dispatch(getWeather(response.data));
+      dispatch(getWeather(response.data, city.uniqueId));
     })
 
     .catch(error => dispatch({ type: SET_ERROR, payload: error }));
 };
 
-export const getWeather = city => dispatch => {
+export const getWeather = (city, uniqueId) => dispatch => {
   const location = city.result.geometry.location;
   axios
     .get(
@@ -32,7 +34,7 @@ export const getWeather = city => dispatch => {
       dispatch({
         type: ADD_ITEM,
         payload: {
-          id: {},
+          id: uniqueId,
           name: name,
           weather: Array.from(
             new Set(

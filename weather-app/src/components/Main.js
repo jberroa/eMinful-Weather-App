@@ -15,34 +15,34 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        if (
-          this.currentCityExist(
-            position.coords.latitude,
-            position.coords.longitude
-          )
-        ) {
+    if (!this.currentCityExist()) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
           this.getPlaceIdByGeoCode(
             position.coords.latitude,
             position.coords.longitude
           );
-        } else {
-          this.setState({ isLoaded: true });
+        },
+        error => {
+          this.setError(error);
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 30000,
+          timeout: 27000
         }
-      },
-      error => {
-        this.setError(error);
-      }
-    );
+      );
+    } else {
+      this.setState({ isLoaded: true });
+    }
   }
 
-  currentCityExist = (lat, lng) => {
-    let length = this.props.cities.find(item => {
-      if (item.location.lat === lat && item.location.lng === lng) return true;
+  currentCityExist = () => {
+    let item = this.props.cities.find(item => {
+      if (item.id === -10) return true;
       return false;
     });
-    return length > 0;
+    return item ? true : false;
   };
 
   getPlaceIdByGeoCode = (lat, lon) => {
@@ -55,7 +55,10 @@ class Main extends Component {
       .then(response => {
         this.setState(
           { isLoaded: true },
-          this.props.addCity({ placeId: response.data.results[0].place_id })
+          this.props.addCity({
+            placeId: response.data.results[0].place_id,
+            uniqueId: -10
+          })
         );
       })
       .catch(error => this.setState({ error: error.message }));
