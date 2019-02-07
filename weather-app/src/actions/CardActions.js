@@ -1,6 +1,6 @@
 import axios from "axios";
 import { placesAPIKey, yahooAPIKey } from "../APIKeys";
-import { ADD_ITEM, REMOVE_ITEM } from "../actionTypes";
+import { ADD_ITEM, REMOVE_ITEM, SET_ERROR } from "../actionTypes";
 import moment from "moment";
 
 export const addItem = city => dispatch => {
@@ -10,29 +10,30 @@ export const addItem = city => dispatch => {
 export const getCityLocation = id => dispatch => {
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${placesAPIKey}&fields=geometry,formatted_address`
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${placesAPIKey}&fields=geometry,formatted_address,address_component`
     )
     .then(response => {
       dispatch(getWeather(response.data));
     })
-    .catch(error => console.log(error));
+
+    .catch(error => dispatch({ type: SET_ERROR, payload: error }));
 };
 
 export const getWeather = city => dispatch => {
   const location = city.result.geometry.location;
   axios
     .get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${
-        city.result.formatted_address
-      }&APPID=${yahooAPIKey}&units=imperial`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${
+        location.lat
+      }&lon=${location.lng}&APPID=${yahooAPIKey}&units=imperial`
     )
     .then(response => {
-      const name = city.result.formatted_address.split(",", 2).toString();
+      const name = getCityName(city.result.address_components);
       dispatch({
         type: ADD_ITEM,
         payload: {
           id: {},
-          name: name.substring(0, name.indexOf(",") + 4),
+          name: name,
           weather: Array.from(
             new Set(
               response.data.list.map(item =>
@@ -43,9 +44,14 @@ export const getWeather = city => dispatch => {
             let item = response.data.list.find(
               item => item.dt_txt.split(" ", 1).toString() === date
             );
+
+            let tempDate = moment(date).format("MMM Do");
+            let TodayDate = moment().format("MMM Do");
+
+            if (tempDate === TodayDate) tempDate = "Today";
             return {
-              date: moment(date).format("MMM Do"),
-              High: Math.round(item.main.temp_max),
+              date: tempDate,
+              high: Math.round(item.main.temp_max),
               low: Math.round(item.main.temp_min),
               description: item.weather["0"].description
             };
@@ -55,7 +61,7 @@ export const getWeather = city => dispatch => {
       });
     })
     .catch(error => {
-      console.log(error);
+      dispatch({ type: SET_ERROR, payload: error });
     });
 };
 
@@ -64,10 +70,17 @@ export const removeItem = id => dispatch => {
     type: REMOVE_ITEM,
     id: id
   });
+};
 
-  // let placeDetails = getPlaceDetails(
-  //   city.split(",", 2).map(item => {
-  //     return item.trim();
-  //   })
-  // );
+export const getCityName = addressComponents => {
+  let name = addressComponents
+    .filter(x => {
+      return (
+        x.types[0] === "locality" ||
+        x.types[0] === "administrative_area_level_1"
+      );
+    })
+    .map(x => x.short_name);
+  name[1] = " " + name[1];
+  return name.toString();
 };

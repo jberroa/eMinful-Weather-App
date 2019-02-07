@@ -3,15 +3,14 @@ import styled from "styled-components";
 import Button from "../../common/Button";
 
 const SearchForm = styled.form`
-  flex: 0 0 40%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 20px 0;
+  width: 80%;
 
   @media only screen and (max-width: 400px) {
     flex-wrap: wrap;
-    flex: 0 0 90%;
   }
 `;
 
@@ -19,7 +18,10 @@ const SearchWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 100%;
+  width: 40%;
+  @media only screen and (max-width: 750px) {
+    width: 100%;
+  }
 `;
 
 const SearchInput = styled.input`
