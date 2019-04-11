@@ -8,7 +8,7 @@ const CardHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  flex-wrap: wrap;
+
   align-content: center;
   justify-content: space-around;
   border-bottom: 1px solid #bdbdbd;

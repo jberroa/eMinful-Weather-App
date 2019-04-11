@@ -10,7 +10,7 @@ export const addItem = city => dispatch => {
 export const getCityLocation = city => dispatch => {
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${
+      `maps/api/place/details/json?placeid=${
         city.placeId
       }&key=${placesAPIKey}&fields=geometry,formatted_address,address_component`
     )
@@ -25,9 +25,9 @@ export const getWeather = (city, uniqueId) => dispatch => {
   const location = city.result.geometry.location;
   axios
     .get(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${
-        location.lat
-      }&lon=${location.lng}&APPID=${yahooAPIKey}&units=imperial`
+      `/data/2.5/forecast?lat=${location.lat}&lon=${
+        location.lng
+      }&APPID=${yahooAPIKey}&units=imperial`
     )
     .then(response => {
       const name = getCityName(city.result.address_components);

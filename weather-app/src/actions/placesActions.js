@@ -5,7 +5,7 @@ import { GET_SUGGESTIONS, SET_ERROR, SET_SUGGESTIONS } from "../actionTypes";
 export const getSuggestions = city => dispatch => {
   axios
     .get(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=
+      `/maps/api/place/autocomplete/json?input=
         ${city}&types=(cities)&key=
         ${placesAPIKey}`
     )

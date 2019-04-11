@@ -1,0 +1,13 @@
+[[redirects]]
+from = "/maps/*"
+to = "https://maps.googleapis.com/maps/:splat"
+status = 200
+[[redirects]]
+from = "/data/*"
+to = "https://api.openweathermap.org/data/:splat"
+status = 200
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+force = false

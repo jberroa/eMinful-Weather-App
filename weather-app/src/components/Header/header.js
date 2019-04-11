@@ -9,6 +9,9 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 `;
 
 export default class HeaderContainer extends Component {

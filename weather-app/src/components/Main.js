@@ -48,9 +48,7 @@ class Main extends Component {
   getPlaceIdByGeoCode = (lat, lon) => {
     axios
       .get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat +
-          "," +
-          lon}&location_type=ROOFTOP&result_type=street_address&key=${geocodeAPIKey}`
+        `/maps/api/geocode/json?latlng=${lat + "," + lon}&key=${geocodeAPIKey}`
       )
       .then(response => {
         this.setState(

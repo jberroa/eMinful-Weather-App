@@ -9,7 +9,7 @@ const SearchForm = styled.form`
   margin: 20px 0;
   width: 80%;
 
-  @media only screen and (max-width: 400px) {
+  @media (max-width: 600px) {
     flex-wrap: wrap;
   }
 `;
@@ -80,7 +80,8 @@ const ButtonContainer = styled.div`
 export default class SearchBar extends Component {
   state = {
     text: "",
-    citySelected: false
+    citySelected: false,
+    activeSuggestion: 0
   };
   onTextChange = event => {
     this.props.getSuggestions(event.target.value);
@@ -103,11 +104,38 @@ export default class SearchBar extends Component {
 
     this.setState({ text: "", citySelected: false });
   };
-  onRemoveItemClick = event => {
-    event.preventDefault();
+  // Event fired when the user presses a key down
+  onKeyDown = e => {
+    const { activeSuggestion } = this.state;
 
-    this.props.removeCity(1);
+    // User pressed the enter key, update the input and close the
+    // suggestions
+    if (e.keyCode === 13) {
+      this.setState({
+        text: this.props.places.suggestions[activeSuggestion],
+        citySelected: true,
+        activeSuggestion: 0
+      });
+    }
+
+    // User pressed the up arrow, decrement the index
+    else if (e.keyCode === 38) {
+      if (activeSuggestion === 0) {
+        return;
+      }
+
+      this.setState({ activeSuggestion: activeSuggestion - 1 });
+    }
+    // User pressed the down arrow, increment the index
+    else if (e.keyCode === 40) {
+      if (activeSuggestion - 1 === this.props.places.suggestions.length) {
+        return;
+      }
+
+      this.setState({ activeSuggestion: activeSuggestion + 1 });
+    }
   };
+
   renderSuggestions = () => {
     return (
       <Suggestions>
