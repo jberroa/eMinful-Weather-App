@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Button from "../../common/Button";
+import Button from "../../Common/Button";
 
 const RemoveButton = styled(Button)`
   align-self: center;
