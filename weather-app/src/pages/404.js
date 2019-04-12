@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from "../common/Button";
+import Button from "../Common/Button";
 import { Link } from "react-router-dom";
 export default class NotFound extends Component {
   render() {
