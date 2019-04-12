@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Button from "../../common/Button";
+import Button from "../../Common/Button";
 
 const SearchForm = styled.form`
   display: flex;
