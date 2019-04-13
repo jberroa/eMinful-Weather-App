@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/96ea017e-8ec3-49ff-bd10-a97cc1d07ffa/deploy-status)](https://app.netlify.com/sites/quirky-khorana-3639e5/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/96ea017e-8ec3-49ff-bd10-a97cc1d07ffa/deploy-status)](https://app.netlify.com/sites/jbweatherapp/deploys)
 
 To run this app you must first add a .env file to the root of this project and add the following environment variable for your application to work.
 
