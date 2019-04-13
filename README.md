@@ -3,8 +3,11 @@
 To run this app you must first add a .env file to the root of this project and add the following environment variable for your application to work.
 
 REACT_APP_placesAPIKey={google places api}
+
 REACT_APP_mapsAPIKey={google maps api}
+
 REACT_APP_yahooAPIKey={open weather api key geocode api}
+
 REACT_APP_geocodeAPIKey= {google geocode api key}
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
