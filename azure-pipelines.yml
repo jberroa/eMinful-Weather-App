@@ -17,5 +17,5 @@ steps:
 
 - script: |
     npm install
-    npm run build
+    cd weather-app && npm run build
   displayName: 'npm install and build'
