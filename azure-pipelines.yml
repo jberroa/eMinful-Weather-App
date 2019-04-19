@@ -21,7 +21,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'echo $'
+    script: 'echo $REACT_APP_geocodeAPIKey'
 
 # - script: |
 #     cd weather-app && npm install
