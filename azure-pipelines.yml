@@ -21,6 +21,7 @@ steps:
     script: 'printenv | grep -i REACT_APP'
     
 - script: |
+    printenv | grep -i react_app
     cd weather-app && npm install
     npm run build
   displayName: 'npm install and build'
