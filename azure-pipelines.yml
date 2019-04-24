@@ -1,4 +1,5 @@
 # Node.js with React
+
 # Build a Node.js project that uses React.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
@@ -17,22 +18,19 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'printenv'
+    script: 'printenv | grep -i REACT_APP'
+    
+- script: |
+    printenv | grep -i react_app
+    cd weather-app && npm install
+    npm run build
+  displayName: 'npm install and build'
 
-- task: CmdLine@2
+- task: CopyFiles@2
   inputs:
-    script: 'echo $REACT_APP_geocodeAPIKey'
+    SourceFolder: 'weather-app/build/'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-# - script: |
-#     cd weather-app && npm install
-#     npm run build
-#   displayName: 'npm install and build'
-
-# - task: CopyFiles@2
-#   inputs:
-#     SourceFolder: 'weather-app/build/'
-#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     ArtifactName: 'drop'
+- task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: 'drop'
